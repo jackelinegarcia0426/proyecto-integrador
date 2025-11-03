@@ -1,4 +1,3 @@
-Ruta Funcional
 <?php
 
 use App\Http\Controllers\ProfileController;
