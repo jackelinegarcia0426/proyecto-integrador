@@ -1,0 +1,138 @@
+═══════════════════════════════════════════════════════════════════════════════
+                    GUÍA DE PRUEBAS - SISTEMA DE LIBROS Y ROLES
+═══════════════════════════════════════════════════════════════════════════════
+
+✅ USUARIOS DE PRUEBA CREADOS AUTOMÁTICAMENTE:
+─────────────────────────────────────────────────────────────────────────────
+
+1. ADMINISTRADOR:
+   Email: admin@ejemplo.com
+   Contraseña: password
+   Rol: admin
+
+2. USUARIO NORMAL:
+   Email: usuario@ejemplo.com
+   Contraseña: password
+   Rol: user
+
+═══════════════════════════════════════════════════════════════════════════════
+
+📋 FUNCIONALIDADES A PROBAR:
+
+═══════════════════════════════════════════════════════════════════════════════
+
+1️⃣ CAMBIAR ROL (USUARIO NORMAL → ADMIN)
+─────────────────────────────────────────────────────────────────────────────
+
+✓ Inicia sesión con: usuario@ejemplo.com / password
+
+✓ Ve a: http://localhost:8000/role/edit
+
+✓ Selecciona rol "admin" en el formulario
+
+✓ Haz clic en "Cambiar Rol"
+
+✓ Verifica que tu rol cambió a admin
+
+✓ Ahora deberías poder acceder a /admin/books
+
+
+2️⃣ GESTIONAR LIBROS (ADMIN)
+─────────────────────────────────────────────────────────────────────────────
+
+✓ Inicia sesión como admin@ejemplo.com / password
+
+✓ Ve a: http://localhost:8000/admin/books
+
+✓ Verifica el panel con:
+   - Cantidad de libros (debe mostrar 0)
+   - Cantidad de categorías
+
+✓ Haz clic en "+ Subir Nuevo Libro"
+
+✓ Completa el formulario:
+   - Título: "Mi Primer Libro"
+   - Descripción: "Una descripción de prueba"
+   - Categoría: Selecciona una (opcional)
+   - Archivo: Carga un PDF (máximo 20MB)
+
+✓ Haz clic en "Subir Libro"
+
+✓ Verifica que el libro aparezca en la tabla
+
+✓ Prueba descargar el PDF
+
+✓ Prueba editar el libro
+
+✓ Prueba eliminar el libro
+
+
+3️⃣ GESTIONAR ROLES DE USUARIOS (SOLO ADMIN)
+─────────────────────────────────────────────────────────────────────────────
+
+✓ Inicia sesión como admin@ejemplo.com / password
+
+✓ Ve a: http://localhost:8000/admin/roles/users
+
+✓ Verifica la lista de usuarios
+
+✓ Cambia el rol del usuario desde el dropdown
+
+✓ Haz clic en "Guardar"
+
+✓ Verifica que el rol se actualizó
+
+
+4️⃣ PERMISOS Y RESTRICCIONES
+─────────────────────────────────────────────────────────────────────────────
+
+✓ Intenta acceder a /admin/books sin estar logueado
+   → Debe redirigir a login
+
+✓ Intenta acceder a /admin/books como usuario normal (antes de cambiar rol)
+   → Debe mostrar error 403
+
+✓ Intenta acceder a /role/edit como admin
+   → Debe mostrar error 403 (solo usuarios "user" pueden cambiar)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🚀 COMANDOS ÚTILES:
+
+Ver todas las rutas:
+  php artisan route:list
+
+Ver estado de migraciones:
+  php artisan migrate:status
+
+Ver usuarios en BD:
+  php artisan tinker
+  > App\Models\User::all();
+
+Ver roles en BD:
+  php artisan tinker
+  > App\Models\Role::all();
+
+═══════════════════════════════════════════════════════════════════════════════
+
+📁 ARCHIVOS PRINCIPALES:
+
+Controladores:
+  - app/Http/Controllers/Admin/BookController.php (CRUD libros)
+  - app/Http/Controllers/RoleController.php (cambio de roles)
+
+Vistas:
+  - resources/views/admin/books/index.blade.php (lista de libros)
+  - resources/views/admin/books/create.blade.php (subir PDF)
+  - resources/views/admin/books/edit.blade.php (editar libro)
+  - resources/views/admin/roles/manage-users.blade.php (gestionar usuarios)
+  - resources/views/role/edit-own.blade.php (cambiar mi rol)
+
+Rutas:
+  - routes/web.php (definición de rutas)
+
+Middleware:
+  - app/Http/Middleware/IsAdmin.php (protege rutas admin)
+
+═══════════════════════════════════════════════════════════════════════════════
