@@ -5,68 +5,65 @@
         </h2>
     </x-slot>
 
-    <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-white">
-                    <h3 class="text-lg font-semibold mb-4">Categorías</h3>
+    <div class="py-10 bg-gray-900 min-h-screen">
+        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-gray-800 shadow-md sm:rounded-lg p-6 text-white">
+                
+                @if (session('success'))
+                    <div class="bg-green-600 text-white px-4 py-2 rounded mb-4">
+                        {{ session('success') }}
+                    </div>
+                @endif
 
-                    <a href="{{ route('categorias.create') }}"
-                       class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 inline-block">
-                        Nueva Categoría
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">Categorías registradas</h3>
+                    <a href="{{ route('categorias.create') }}" 
+                       class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition duration-200">
+                        + Nueva Categoría
                     </a>
-
-                    @if(session('success'))
-                        <div class="mb-4 bg-green-600 text-white py-2 px-4 rounded">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
-                    <table class="min-w-full border border-gray-700 text-white">
-                        <thead>
-                            <tr class="bg-gray-900 text-white">
-                                <th class="px-4 py-2 border border-gray-700">ID</th>
-                                <th class="px-4 py-2 border border-gray-700">Nombre</th>
-                                <th class="px-4 py-2 border border-gray-700">Descripción</th>
-                                <th class="px-4 py-2 border border-gray-700">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($categorias as $categoria)
-                                <tr class="hover:bg-gray-700">
-                                    <td class="px-4 py-2 border border-gray-700">{{ $categoria->id }}</td>
-                                    <td class="px-4 py-2 border border-gray-700">{{ $categoria->nombre }}</td>
-                                    <td class="px-4 py-2 border border-gray-700">{{ $categoria->descripcion }}</td>
-                                    <td class="px-4 py-2 border border-gray-700 space-x-2">
-                                        <a href="{{ route('categorias.show', $categoria) }}"
-                                           class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-sm font-semibold">
-                                           Ver
-                                        </a>
-                                        <a href="{{ route('categorias.edit', $categoria) }}"
-                                           class="bg-yellow-500 hover:bg-yellow-600 text-black py-1 px-3 rounded text-sm font-semibold">
-                                           Editar
-                                        </a>
-                                        <form action="{{ route('categorias.destroy', $categoria) }}" method="POST" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                    class="bg-red-600 hover:bg-red-700 text-white py-1 px-3 rounded text-sm font-semibold"
-                                                    onclick="return confirm('¿Seguro que deseas eliminar esta categoría?')">
-                                                Eliminar
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="text-center py-4 text-gray-400">
-                                        No hay categorías registradas.
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
                 </div>
+
+                <table class="min-w-full border border-gray-700 rounded-lg overflow-hidden">
+                    <thead class="bg-gray-700 text-gray-300">
+                        <tr>
+                            <th class="px-4 py-2 text-left">ID</th>
+                            <th class="px-4 py-2 text-left">Nombre</th>
+                            <th class="px-4 py-2 text-left">Descripción</th>
+                            <th class="px-4 py-2 text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($categorias as $categoria)
+                            <tr class="border-t border-gray-700 hover:bg-gray-700">
+                                <td class="px-4 py-2">{{ $categoria->id }}</td>
+                                <td class="px-4 py-2">{{ $categoria->nombre }}</td>
+                                <td class="px-4 py-2">{{ $categoria->descripcion }}</td>
+                                <td class="px-4 py-2 text-center">
+                                    <a href="{{ route('categorias.show', $categoria) }}" 
+                                       class="text-blue-400 hover:text-blue-300 mr-2">Ver</a>
+                                    <a href="{{ route('categorias.edit', $categoria) }}" 
+                                       class="text-yellow-400 hover:text-yellow-300 mr-2">Editar</a>
+                                    <form action="{{ route('categorias.destroy', $categoria) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" 
+                                            onclick="return confirm('¿Deseas eliminar esta categoría?')" 
+                                            class="text-red-500 hover:text-red-300">
+                                            Eliminar
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="px-4 py-4 text-center text-gray-400">
+                                    No hay categorías registradas.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </div>
