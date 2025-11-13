@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
         // Ejecutar seeders
         $this->call([
             CategoriaSeeder::class,
+            RoleSeeder::class,
+            AdminSeeder::class,
             UserSeeder::class,
         ]);
     }
