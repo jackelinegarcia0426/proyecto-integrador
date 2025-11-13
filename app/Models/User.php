@@ -23,10 +23,10 @@ class User extends Authenticatable
      * @var array<string>
      */
     protected $fillable = [
-    'name',        // ← cambiar de 'nombre'
-    'email',       // ← cambiar de 'correo'  
-    'password',    // ← cambiar de 'contrasena'
-    'rol_id'
+        'name',
+        'email',
+        'password',
+        'rol_id',
     ];
 
     /**
@@ -36,6 +36,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 
     /**
@@ -45,7 +46,7 @@ class User extends Authenticatable
      */
     public function getAuthPassword()
     {
-        return $this->contrasena;
+        return $this->password;
     }
 
     /**
@@ -55,7 +56,8 @@ class User extends Authenticatable
      */
     public function getRememberTokenName()
     {
-        return '';  // No usamos remember_token en esta tabla
+        // Use the default remember token column so Laravel's auth works normally
+        return 'remember_token';
     }
 
     /**
@@ -64,5 +66,13 @@ class User extends Authenticatable
     public function rol()
     {
         return $this->belongsTo(Role::class, 'rol_id');
+    }
+
+    /**
+     * Libros favoritos del usuario
+     */
+    public function favoriteBooks()
+    {
+        return $this->belongsToMany(Book::class, 'book_favorites');
     }
 }
