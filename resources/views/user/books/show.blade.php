@@ -61,9 +61,9 @@
                                 </p>
                             </div>
                             <div>
-                                <p class="text-gray-600 text-sm">Estado</p>
+                                <p class="text-gray-600 text-sm">Descargas</p>
                                 <p class="text-2xl font-bold text-green-600">
-                                    <i class="bi bi-check-circle"></i> Disponible
+                                    <i class="bi bi-download"></i> {{ $book->downloads }}
                                 </p>
                             </div>
                             <div>

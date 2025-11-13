@@ -105,6 +105,9 @@ class BookController extends Controller
             abort(404);
         }
 
+        // Incrementar contador de descargas
+        $book->increment('downloads');
+
         return response()->download(
             Storage::disk('public')->path($book->file_path),
             $book->title . '.pdf'

@@ -83,6 +83,9 @@ class BookSearchController extends Controller
             abort(404, 'El archivo PDF no existe');
         }
 
+        // Incrementar contador de descargas
+        $book->increment('downloads');
+
         return response()->download(
             \Illuminate\Support\Facades\Storage::disk('public')->path($book->file_path),
             $book->title . '.pdf'

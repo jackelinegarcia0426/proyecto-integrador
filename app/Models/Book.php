@@ -19,6 +19,7 @@ class Book extends Model
         'file_path',
         'status',
         'views',
+        'downloads',
         'created_at',
         'updated_at'
     ];
