@@ -15,6 +15,11 @@ Route::get('/', function () {
 Route::get('/test', [TestController::class, 'test']);
 
 Route::get('/dashboard', function () {
+    $user = auth()->user();
+    // Si el usuario tiene rol 'user', mostrar su dashboard especial
+    if ($user && optional($user->rol)->nombre === 'user') {
+        return view('user.dashboard');
+    }
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
