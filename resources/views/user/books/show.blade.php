@@ -28,7 +28,7 @@
                         </div>
 
                         <!-- Botón de descarga grande -->
-                        <a href="{{ route('admin.books.download', $book) }}" class="w-full mt-6 px-6 py-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-bold text-center block">
+                        <a href="{{ route('user.books.download', $book) }}" class="w-full mt-6 px-6 py-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-bold text-center block">
                             <i class="bi bi-download"></i> Descargar PDF
                         </a>
                     </div>
@@ -119,7 +119,7 @@
                                         <a href="{{ route('user.books.show', $related) }}" class="flex-1 px-2 py-1 bg-indigo-600 text-white rounded text-center text-xs font-semibold hover:bg-indigo-700">
                                             Ver
                                         </a>
-                                        <a href="{{ route('admin.books.download', $related) }}" class="flex-1 px-2 py-1 bg-green-600 text-white rounded text-center text-xs font-semibold hover:bg-green-700">
+                                        <a href="{{ route('user.books.download', $related) }}" class="flex-1 px-2 py-1 bg-green-600 text-white rounded text-center text-xs font-semibold hover:bg-green-700">
                                             <i class="bi bi-download"></i>
                                         </a>
                                     </div>

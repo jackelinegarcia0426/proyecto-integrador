@@ -73,4 +73,19 @@ class BookSearchController extends Controller
 
         return response()->json($books);
     }
+
+    /**
+     * Descargar PDF del libro
+     */
+    public function download(Book $book)
+    {
+        if (!$book->file_path || !\Illuminate\Support\Facades\Storage::disk('public')->exists($book->file_path)) {
+            abort(404, 'El archivo PDF no existe');
+        }
+
+        return response()->download(
+            \Illuminate\Support\Facades\Storage::disk('public')->path($book->file_path),
+            $book->title . '.pdf'
+        );
+    }
 }

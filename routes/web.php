@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('/books/search', [BookSearchController::class, 'index'])->name('books.search');
         Route::get('/books/{book}', [BookSearchController::class, 'show'])->name('books.show');
+        Route::get('/books/{book}/download', [BookSearchController::class, 'download'])->name('books.download');
         Route::get('/books/search/api', [BookSearchController::class, 'search'])->name('books.search.api');
     });
 

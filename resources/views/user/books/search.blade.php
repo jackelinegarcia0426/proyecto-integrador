@@ -108,7 +108,7 @@
                                     <a href="{{ route('user.books.show', $book) }}" class="flex-1 px-3 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-center font-semibold text-sm">
                                         <i class="bi bi-eye"></i> Ver Detalles
                                     </a>
-                                    <a href="{{ route('admin.books.download', $book) }}" class="flex-1 px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-center font-semibold text-sm">
+                                    <a href="{{ route('user.books.download', $book) }}" class="flex-1 px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-center font-semibold text-sm">
                                         <i class="bi bi-download"></i> Descargar
                                     </a>
                                 </div>
