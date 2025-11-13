@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
 
     // Rutas de usuario - Búsqueda y visualización de libros
     Route::prefix('user')->name('user.')->group(function () {
+        Route::get('/dashboard', function() { return view('user.dashboard'); })->name('dashboard');
         Route::get('/books/search', [BookSearchController::class, 'index'])->name('books.search');
         Route::get('/books/{book}', [BookSearchController::class, 'show'])->name('books.show');
         Route::get('/books/{book}/download', [BookSearchController::class, 'download'])->name('books.download');
