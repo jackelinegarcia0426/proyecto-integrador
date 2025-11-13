@@ -32,6 +32,14 @@ class Book extends Model
     }
 
     /**
+     * Alias para category() - mantiene compatibilidad con código existente
+     */
+    public function categoria()
+    {
+        return $this->category();
+    }
+
+    /**
      * Relación con usuarios (favoritos)
      */
     public function favorites()

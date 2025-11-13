@@ -13,7 +13,7 @@ class BookController extends Controller
 {
     public function index()
     {
-        $books = Book::with('categoria')->paginate(20);
+        $books = Book::with('category')->paginate(20);
         $booksCount = Book::count();
         $categoriesCount = Categoria::count();
 
@@ -29,19 +29,24 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'titulo' => 'required|string|max:255',
-            'descripcion' => 'nullable|string',
-            'categoria_id' => 'nullable|exists:categorias,id',
+            'title' => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'isbn' => 'nullable|string|unique:books,isbn',
+            'category_id' => 'nullable|exists:categorias,id',
             'file' => 'required|file|mimes:pdf|max:20480', // max 20MB
         ]);
 
         $path = $request->file('file')->store('books', 'public');
 
         $book = Book::create([
-            'titulo' => $data['titulo'],
-            'descripcion' => $data['descripcion'] ?? null,
-            'categoria_id' => $data['categoria_id'] ?? null,
+            'title' => $data['title'],
+            'author' => $data['author'] ?? null,
+            'description' => $data['description'] ?? null,
+            'isbn' => $data['isbn'] ?? null,
+            'category_id' => $data['category_id'] ?? null,
             'file_path' => $path,
+            'status' => 'activo',
         ]);
 
         return redirect()->route('admin.books.index')->with('success', 'Libro subido correctamente');
@@ -56,9 +61,11 @@ class BookController extends Controller
     public function update(Request $request, Book $book)
     {
         $data = $request->validate([
-            'titulo' => 'required|string|max:255',
-            'descripcion' => 'nullable|string',
-            'categoria_id' => 'nullable|exists:categorias,id',
+            'title' => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'isbn' => 'nullable|string|unique:books,isbn,' . $book->id,
+            'category_id' => 'nullable|exists:categorias,id',
             'file' => 'nullable|file|mimes:pdf|max:20480',
         ]);
 
@@ -71,9 +78,11 @@ class BookController extends Controller
             $book->file_path = $path;
         }
 
-        $book->titulo = $data['titulo'];
-        $book->descripcion = $data['descripcion'] ?? null;
-        $book->categoria_id = $data['categoria_id'] ?? null;
+        $book->title = $data['title'];
+        $book->author = $data['author'] ?? null;
+        $book->description = $data['description'] ?? null;
+        $book->isbn = $data['isbn'] ?? null;
+        $book->category_id = $data['category_id'] ?? null;
         $book->save();
 
         return redirect()->route('admin.books.index')->with('success', 'Libro actualizado correctamente');
@@ -98,7 +107,7 @@ class BookController extends Controller
 
         return response()->download(
             Storage::disk('public')->path($book->file_path),
-            $book->titulo . '.pdf'
+            $book->title . '.pdf'
         );
     }
 }

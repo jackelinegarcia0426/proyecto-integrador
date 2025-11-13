@@ -16,7 +16,7 @@
                 <i class="bi bi-book text-white text-lg"></i>
             </div>
             <div>
-                <h1 class="text-2xl font-bold text-gray-800">{{ $book->titulo }}</h1>
+                <h1 class="text-2xl font-bold text-gray-800">{{ $book->title }}</h1>
                 <p class="text-gray-500 text-sm">Modificar datos del libro</p>
             </div>
         </div>
@@ -40,28 +40,45 @@
 
             <!-- Título -->
             <x-form-input
-                name="titulo"
+                name="title"
                 label="Título del Libro"
                 placeholder="Ingresa el título del libro"
-                value="{{ $book->titulo }}"
+                value="{{ $book->title }}"
                 required
+            />
+
+            <!-- Autor -->
+            <x-form-input
+                name="author"
+                label="Autor"
+                placeholder="Ingresa el nombre del autor"
+                value="{{ $book->author }}"
+                required
+            />
+
+            <!-- ISBN -->
+            <x-form-input
+                name="isbn"
+                label="ISBN"
+                placeholder="Ingresa el ISBN del libro"
+                value="{{ $book->isbn }}"
             />
 
             <!-- Descripción -->
             <x-form-textarea
-                name="descripcion"
+                name="description"
                 label="Descripción"
                 placeholder="Escribe una descripción detallada del libro"
-                value="{{ $book->descripcion }}"
+                value="{{ $book->description }}"
                 rows="5"
             />
 
             <!-- Categoría -->
             <x-form-select
-                name="categoria_id"
+                name="category_id"
                 label="Categoría"
                 :options="$categorias->pluck('nombre', 'id')->toArray()"
-                value="{{ $book->categoria_id }}"
+                value="{{ $book->category_id }}"
                 placeholder="-- Selecciona una categoría --"
             />
 

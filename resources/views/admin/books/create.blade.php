@@ -48,15 +48,30 @@
 
             <!-- Título -->
             <x-form-input
-                name="titulo"
+                name="title"
                 label="Título del Libro"
                 placeholder="Ej: El Quijote de la Mancha"
                 required
             />
 
+            <!-- Autor -->
+            <x-form-input
+                name="author"
+                label="Autor"
+                placeholder="Ej: Miguel de Cervantes"
+                required
+            />
+
+            <!-- ISBN -->
+            <x-form-input
+                name="isbn"
+                label="ISBN"
+                placeholder="Ej: 978-3-16-148410-0"
+            />
+
             <!-- Descripción -->
             <x-form-textarea
-                name="descripcion"
+                name="description"
                 label="Descripción"
                 placeholder="Escribe una descripción detallada sobre el contenido del libro..."
                 rows="5"
@@ -64,7 +79,7 @@
 
             <!-- Categoría -->
             <x-form-select
-                name="categoria_id"
+                name="category_id"
                 label="Categoría"
                 :options="$categorias->pluck('nombre', 'id')->toArray()"
                 placeholder="-- Selecciona una categoría --"

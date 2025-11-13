@@ -95,10 +95,10 @@
                         @foreach($books as $book)
                             <tr>
                                 <td><span class="badge" style="background: #667eea; color: white;">{{ $book->id }}</span></td>
-                                <td><strong>{{ $book->titulo }}</strong></td>
+                                <td><strong>{{ $book->title }}</strong></td>
                                 <td>
-                                    @if($book->categoria)
-                                        <span class="badge" style="background: #e3f2fd; color: #1976d2;">{{ $book->categoria->nombre }}</span>
+                                    @if($book->category)
+                                        <span class="badge" style="background: #e3f2fd; color: #1976d2;">{{ $book->category->nombre }}</span>
                                     @else
                                         <span class="badge" style="background: #f5f5f5; color: #999;">Sin categoría</span>
                                     @endif
