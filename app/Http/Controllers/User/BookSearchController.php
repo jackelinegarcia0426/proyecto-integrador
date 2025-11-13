@@ -32,6 +32,16 @@ class BookSearchController extends Controller
             $query->where('category_id', $request->input('category_id'));
         }
 
+        // Ordenamiento
+        $sort = $request->input('sort', 'latest');
+        if ($sort === 'views') {
+            $query->orderByDesc('views');
+        } elseif ($sort === 'downloads') {
+            $query->orderByDesc('downloads');
+        } else {
+            $query->latest();
+        }
+
         $books = $query->paginate(12);
 
         return view('user.books.search', compact('books', 'categorias'));

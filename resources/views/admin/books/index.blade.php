@@ -51,16 +51,16 @@
                 <div class="stat-card">
                     <strong>{{ $booksCount }}</strong>
                     <small>Total de Libros</small>
+                </div>
+                <div class="stat-card">
+                    <strong>{{ $categoriesCount }}</strong>
+                    <small>Categorías</small>
+                </div>
+                <div class="stat-card">
+                    <strong>{{ \App\Models\Book::sum('downloads') }}</strong>
+                    <small>Total de Descargas</small>
+                </div>
             </div>
-            <div class="stat-card">
-                <strong>{{ $categoriesCount }}</strong>
-                <small>Categorías</small>
-            </div>
-            <div class="stat-card">
-                <strong>{{ $booksCount > 0 ? 'Activo' : 'Vacío' }}</strong>
-                <small>Estado de Almacén</small>
-            </div>
-        </div>
 
         <!-- Actions -->
         <div class="actions-section">
@@ -88,6 +88,7 @@
                             <th><i class="bi bi-book"></i> Título</th>
                             <th><i class="bi bi-tag"></i> Categoría</th>
                             <th><i class="bi bi-calendar-event"></i> Creado</th>
+                            <th style="text-align: center;"><i class="bi bi-download"></i> Descargas</th>
                             <th style="text-align: center;"><i class="bi bi-tools"></i> Acciones</th>
                         </tr>
                     </thead>
@@ -104,6 +105,9 @@
                                     @endif
                                 </td>
                                 <td><small>{{ $book->created_at->format('d/m/Y H:i') }}</small></td>
+                                <td style="text-align: center;">
+                                    <strong style="color: #28a745; font-size: 1.1em;">{{ $book->downloads ?? 0 }}</strong>
+                                </td>
                                 <td style="text-align: center;">
                                     <div class="btn-group">
                                         <a href="{{ route('admin.books.download', $book) }}" class="btn btn-sm btn-info" title="Descargar">

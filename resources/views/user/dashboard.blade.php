@@ -1,11 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center justify-center gap-3">
-                <i class="bi bi-book-half text-2xl text-indigo-600"></i>
+        <div class="flex items-center justify-center w-full">
+            <div class="flex items-center justify-center gap-4 text-center">
+                <div class="p-3 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full">
+                    <i class="bi bi-book-half text-3xl text-indigo-600"></i>
+                </div>
                 <div>
-                    <h2 class="font-semibold text-xl text-gray-800">Mi Biblioteca</h2>
-                    <p class="text-sm opacity-75 mt-1">Bienvenido a tu biblioteca virtual</p>
+                    <h2 class="font-bold text-3xl bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Mi Biblioteca</h2>
+                    <p class="text-sm opacity-80 mt-1 text-gray-600">Bienvenido a tu biblioteca virtual</p>
                 </div>
             </div>
         </div>
@@ -34,9 +36,10 @@
                 </a>
             </div>
 
-            <!-- Stats -->
+            <!-- Stats - Now Clickable -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <div class="bg-white rounded-lg shadow p-6 border-l-4 border-indigo-600">
+                <!-- Total de Libros -->
+                <a href="{{ route('user.books.search') }}" class="bg-white rounded-lg shadow p-6 border-l-4 border-indigo-600 hover:shadow-lg hover:scale-105 transition cursor-pointer">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-gray-500 text-sm">Total de Libros</p>
@@ -44,9 +47,10 @@
                         </div>
                         <i class="bi bi-book-half text-4xl text-indigo-200"></i>
                     </div>
-                </div>
+                </a>
 
-                <div class="bg-white rounded-lg shadow p-6 border-l-4 border-purple-600">
+                <!-- Categorías -->
+                <a href="#categorias-section" onclick="document.getElementById('categorias-section').scrollIntoView({behavior: 'smooth'}); return false;" class="bg-white rounded-lg shadow p-6 border-l-4 border-purple-600 hover:shadow-lg hover:scale-105 transition cursor-pointer">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-gray-500 text-sm">Categorías</p>
@@ -54,9 +58,10 @@
                         </div>
                         <i class="bi bi-collection text-4xl text-purple-200"></i>
                     </div>
-                </div>
+                </a>
 
-                <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-600">
+                <!-- Libros Más Vistos -->
+                <a href="{{ route('user.books.search', ['sort' => 'views']) }}" class="bg-white rounded-lg shadow p-6 border-l-4 border-green-600 hover:shadow-lg hover:scale-105 transition cursor-pointer">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-gray-500 text-sm">Libros Más Vistos</p>
@@ -64,7 +69,7 @@
                         </div>
                         <i class="bi bi-graph-up text-4xl text-green-200"></i>
                     </div>
-                </div>
+                </a>
             </div>
 
             
@@ -86,7 +91,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         @foreach($downloadedBooks as $book)
                             <div class="bg-gradient-to-br from-red-50 to-orange-50 rounded-lg shadow-lg hover:shadow-2xl transition transform hover:scale-105 overflow-hidden group border-2 border-red-200">
-                                <!-- Badge -->
+                            
                                 <div class="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold z-10">
                                     <i class="bi bi-fire"></i> TOP
                                 </div>
@@ -177,7 +182,7 @@
             </div>
 
             <!-- Categorias -->
-            <div>
+            <div id="categorias-section">
                 <h2 class="text-3xl font-bold text-gray-900 mb-8 flex items-center gap-2">
                     <i class="bi bi-collection text-purple-600"></i>
                     Categorías Disponibles
