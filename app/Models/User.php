@@ -67,4 +67,12 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class, 'rol_id');
     }
+
+    /**
+     * Libros favoritos del usuario
+     */
+    public function favoriteBooks()
+    {
+        return $this->belongsToMany(Book::class, 'book_favorites');
+    }
 }

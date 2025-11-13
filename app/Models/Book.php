@@ -9,17 +9,33 @@ class Book extends Model
 {
     use HasFactory;
 
-    protected $table = 'books';
-
     protected $fillable = [
-        'titulo',
-        'descripcion',
-        'categoria_id',
+        'title',
+        'author',
+        'description',
+        'isbn',
+        'category_id',
+        'image_url',
         'file_path',
+        'status',
+        'views',
+        'created_at',
+        'updated_at'
     ];
 
-    public function categoria()
+    /**
+     * Relación con Categoría
+     */
+    public function category()
     {
-        return $this->belongsTo(Categoria::class, 'categoria_id');
+        return $this->belongsTo(Categoria::class, 'category_id');
+    }
+
+    /**
+     * Relación con usuarios (favoritos)
+     */
+    public function favorites()
+    {
+        return $this->belongsToMany(User::class, 'book_favorites');
     }
 }

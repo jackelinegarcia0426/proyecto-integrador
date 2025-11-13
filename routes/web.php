@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\BookSearchController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,8 +30,13 @@ Route::middleware('auth')->group(function () {
     
     Route::resource('categorias', CategoriaController::class);
 
-    // Admin books
+    // Rutas de usuario - Dashboard con búsqueda
+    Route::get('/user/dashboard', [BookSearchController::class, 'searchUser'])->name('user.dashboard');
+
+    // Admin books y dashboard
     Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
+        Route::get('/dashboard', [BookSearchController::class, 'searchAdmin'])->name('dashboard');
+        
         Route::get('books', [BookController::class, 'index'])->name('books.index');
         Route::get('books/create', [BookController::class, 'create'])->name('books.create');
         Route::post('books', [BookController::class, 'store'])->name('books.store');
