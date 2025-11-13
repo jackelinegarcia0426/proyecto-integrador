@@ -1,75 +1,120 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="text-center text-white bg-gradient-to-r from-indigo-500 to-purple-600 py-10 rounded-lg shadow-md">
-            <h2 class="font-semibold text-3xl leading-tight">
-                <i class="bi bi-pencil"></i> Editar Libro
-            </h2>
+        <div class="flex items-center justify-center gap-3">
+            <i class="bi bi-pencil-square text-2xl"></i>
+            <div>
+                <h2>Editar Libro</h2>
+                <p class="text-sm opacity-75 mt-1">Actualiza la información del libro seleccionado</p>
+            </div>
         </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-10">
-                <h1 class="text-2xl font-bold mb-6">Editar Libro</h1>
-
-                @if ($errors->any())
-                    <div class="alert alert-danger mb-4">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
-                <form action="{{ route('admin.books.update', $book) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-
-                    <div class="mb-3">
-                        <label for="titulo" class="form-label">Título del Libro</label>
-                        <input type="text" name="titulo" id="titulo" class="form-control @error('titulo') is-invalid @enderror" required value="{{ old('titulo', $book->titulo) }}">
-                        @error('titulo')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="descripcion" class="form-label">Descripción</label>
-                        <textarea name="descripcion" id="descripcion" class="form-control @error('descripcion') is-invalid @enderror" rows="4">{{ old('descripcion', $book->descripcion) }}</textarea>
-                        @error('descripcion')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="categoria_id" class="form-label">Categoría</label>
-                        <select name="categoria_id" id="categoria_id" class="form-control @error('categoria_id') is-invalid @enderror">
-                            <option value="">-- Sin categoría --</option>
-                            @foreach($categorias as $cat)
-                                <option value="{{ $cat->id }}" {{ old('categoria_id', $book->categoria_id) == $cat->id ? 'selected' : '' }}>{{ $cat->nombre }}</option>
-                            @endforeach
-                        </select>
-                        @error('categoria_id')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="file" class="form-label">Reemplazar archivo PDF (opcional)</label>
-                        <input type="file" name="file" id="file" class="form-control @error('file') is-invalid @enderror" accept="application/pdf">
-                        <small class="form-text text-muted">Máximo 20 MB. Solo archivos PDF. Dejar vacío para mantener el PDF actual.</small>
-                        @error('file')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <a href="{{ route('admin.books.index') }}" class="btn btn-secondary">Cancelar</a>
-                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                    </div>
-                </form>
+    <div class="max-w-2xl mx-auto">
+        <!-- Encabezado con ícono -->
+        <div class="mb-8 flex items-center gap-2">
+            <div class="w-12 h-12 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center">
+                <i class="bi bi-book text-white text-lg"></i>
+            </div>
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">{{ $book->titulo }}</h1>
+                <p class="text-gray-500 text-sm">Modificar datos del libro</p>
             </div>
         </div>
+
+        <!-- Mostrar errores generales si existen -->
+        @if ($errors->any())
+            <x-alert-error>
+                <strong class="block mb-2">¡Por favor revisa los siguientes errores:</strong>
+                <ul class="list-disc list-inside space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </x-alert-error>
+        @endif
+
+        <!-- Formulario -->
+        <form action="{{ route('admin.books.update', $book) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+            @csrf
+            @method('PUT')
+
+            <!-- Título -->
+            <x-form-input
+                name="titulo"
+                label="Título del Libro"
+                placeholder="Ingresa el título del libro"
+                value="{{ $book->titulo }}"
+                required
+            />
+
+            <!-- Descripción -->
+            <x-form-textarea
+                name="descripcion"
+                label="Descripción"
+                placeholder="Escribe una descripción detallada del libro"
+                value="{{ $book->descripcion }}"
+                rows="5"
+            />
+
+            <!-- Categoría -->
+            <x-form-select
+                name="categoria_id"
+                label="Categoría"
+                :options="$categorias->pluck('nombre', 'id')->toArray()"
+                value="{{ $book->categoria_id }}"
+                placeholder="-- Selecciona una categoría --"
+            />
+
+            <!-- Upload de archivo -->
+            <div class="mb-6">
+                <label for="file" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Reemplazar archivo PDF (opcional)
+                </label>
+                <div class="relative">
+                    <input
+                        type="file"
+                        name="file"
+                        id="file"
+                        accept="application/pdf"
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 text-gray-700 cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-100 file:text-indigo-700 hover:file:bg-indigo-200"
+                    />
+                </div>
+                <p class="mt-2 text-xs text-gray-600 flex items-center gap-1">
+                    <i class="bi bi-info-circle"></i>
+                    Máximo 20 MB. Solo archivos PDF. Dejar vacío para mantener el PDF actual.
+                </p>
+                @error('file')
+                    <div class="mt-2 text-sm text-red-600 flex items-center gap-1">
+                        <i class="bi bi-exclamation-circle"></i>
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <!-- Información actual del archivo -->
+            @if($book->file_path)
+                <div class="p-4 rounded-lg bg-blue-50 border border-blue-200 mb-6">
+                    <div class="flex items-center gap-2 text-blue-800">
+                        <i class="bi bi-file-pdf text-blue-600"></i>
+                        <div>
+                            <p class="text-sm font-semibold">Archivo actual</p>
+                            <p class="text-xs opacity-75">{{ basename($book->file_path) }}</p>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            <!-- Botones de acción -->
+            <div class="flex gap-3 pt-4 border-t border-gray-200">
+                <x-btn-secondary href="{{ route('admin.books.index') }}">
+                    <i class="bi bi-arrow-left"></i>
+                    Cancelar
+                </x-btn-secondary>
+                <x-btn-primary>
+                    <i class="bi bi-check-circle"></i>
+                    Guardar Cambios
+                </x-btn-primary>
+            </div>
+        </form>
     </div>
 </x-app-layout>
